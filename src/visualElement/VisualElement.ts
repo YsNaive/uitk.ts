@@ -116,6 +116,14 @@ class VisualElementHierarchy implements IHierarchyNode<VisualElement>{
     public Add(ve: VisualElement){
         this.htmlElement.appendChild(ve.hierarchy.htmlElement);
     }
+
+    public AddRange(ves: VisualElement[]){
+        const fragment = document.createDocumentFragment();
+        for(const ve of ves){
+            fragment.appendChild(ve.hierarchy.htmlElement);
+        }
+        this.htmlElement.appendChild(fragment);
+    }
     
     public Insert(index: number, ve: VisualElement) {
         const children = this.htmlElement.children;
@@ -237,6 +245,21 @@ export class VisualElement implements IHierarchyNode<VisualElement>{
             this.hierarchy.Add(ve);
         } else {
             this.contentContainer._add(ve);
+        }
+    }
+
+    public AddRange(ves: VisualElement[]){
+        for(const ve of ves){
+            ve.m_logicalParent = this;
+        }
+        this._addRange(ves);
+    }
+
+    private _addRange(ves: VisualElement[]){
+        if (this.contentContainer === this) {
+            this.hierarchy.AddRange(ves);
+        } else {
+            this.contentContainer._addRange(ves);
         }
     }
 
