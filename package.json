@@ -3,11 +3,27 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  
+  "main": "./dist/lib/uitk.umd.js",
+  "module": "./dist/lib/uitk.es.js",
+  "types": "./dist/lib/uitk.es.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/lib/uitk.es.js",
+      "require": "./dist/lib/uitk.umd.js",
+      "types": "./dist/lib/uitk.es.d.ts"
+    }
+  },
+  "files": [
+    "dist/lib"
+  ],
+  
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "build:lib": "vite build -c vite.lib.config.ts",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepare": "npm run build:lib"
   },
   "devDependencies": {
     "@types/node": "^24.0.3",
